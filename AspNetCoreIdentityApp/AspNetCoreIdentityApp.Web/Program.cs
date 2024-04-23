@@ -1,3 +1,6 @@
+using AspNetCoreIdentityApp.Web.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace AspNetCoreIdentityApp.Web
 {
     public class Program
@@ -8,6 +11,13 @@ namespace AspNetCoreIdentityApp.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<AppDbContext>(opt =>
+            {
+                opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlCon"));
+            });
+
+            builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
 
             var app = builder.Build();
 
