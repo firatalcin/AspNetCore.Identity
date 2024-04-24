@@ -4,6 +4,6 @@ namespace AspNetCoreIdentityApp.Web.Models
 {
     public class AppUser : IdentityUser
     {
-        public string City { get; set; }
+        public string? City { get; set; }
     }
 }
