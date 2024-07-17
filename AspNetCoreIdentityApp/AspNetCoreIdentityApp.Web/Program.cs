@@ -1,3 +1,4 @@
+using AspNetCoreIdentityApp.Web.Extensions;
 using AspNetCoreIdentityApp.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ namespace AspNetCoreIdentityApp.Web
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlCon"));
             });
 
-            builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddIdentityWithExt();
 
             var app = builder.Build();
 
