@@ -15,7 +15,7 @@ namespace AspNetCoreIdentityApp.Web.CustomValidations
 
             if (password!.ToLower().StartsWith("1234"))
             {
-                errors.Add(new() { Code = "PasswordNoContain1234", Description = "Şifre alanı ardışık sayı içeremez." });
+                errors.Add(new() { Code = "PasswordContain1234", Description = "Şifre alanı ardışık sayı içeremez." });
             }
 
             if (errors.Any())
