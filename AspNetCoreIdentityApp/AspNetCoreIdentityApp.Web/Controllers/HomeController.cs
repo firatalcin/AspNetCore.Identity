@@ -37,9 +37,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
 
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel request)
-        {
-           
-
+        {         
             if (!ModelState.IsValid)
             {
                 return View();
@@ -85,7 +83,7 @@ namespace AspNetCoreIdentityApp.Web.Controllers
                 return View();
             }
 
-            var signInResult = await _signInManager.PasswordSignInAsync(hasUser, model.Password, model.RememberMe, false);
+            var signInResult = await _signInManager.PasswordSignInAsync(hasUser, model.Password, model.RememberMe, true);
 
             if (signInResult.Succeeded)
             {
@@ -93,7 +91,13 @@ namespace AspNetCoreIdentityApp.Web.Controllers
                 return Redirect(returnUrl);
             }
 
-            ModelState.AddModelErrorList(new List<string>() { "Email veya Şifre yanlış" });            
+            if (signInResult.IsLockedOut)
+            {
+                ModelState.AddModelErrorList(new List<string>() { "3 dakika boyunca giriş yapamazsınız." });
+                return View();
+            }
+
+            ModelState.AddModelErrorList(new List<string>() { $"Email veya Şifre yanlış.", $"Başarısız Giriş Sayısı : {_userManager.GetAccessFailedCountAsync(hasUser)}" });            
 
             return View();
         }
