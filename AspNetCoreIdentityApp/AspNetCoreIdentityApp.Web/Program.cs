@@ -24,8 +24,8 @@ namespace AspNetCoreIdentityApp.Web
             {
                 var cookieBuilder = new CookieBuilder();
                 cookieBuilder.Name = "UdemyAppCookie";
-                opt.LogoutPath = new PathString("/Home/SignIn");
-
+                opt.LoginPath = new PathString("/Home/SignIn");
+                opt.LogoutPath = new PathString("/Member/LogOut");
                 opt.Cookie = cookieBuilder;
                 opt.ExpireTimeSpan = TimeSpan.FromDays(60);
                 opt.SlidingExpiration = true;
@@ -45,7 +45,7 @@ namespace AspNetCoreIdentityApp.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
