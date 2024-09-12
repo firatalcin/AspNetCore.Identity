@@ -18,3 +18,48 @@
     <li><b>Third Party Authentication</b></li>
     <p>Üçüncü taraf kimlik doğrulamadır. Facebook, Google, Twitter vs. gibi hesaplarla sistemler üzerinden gerçekleştirilen kimlik doğrulamasıdır.</p>
 </ul>
+
+<h2>Asp.Net Core Identity - Identity Altyapısı Kurulumu</h2>
+
+<p>Identity'i kütüphanesini bir projede kullanabilmek için öncelikle ilgili Nuget'leri(Package) indirmemiz gerekmektedir.</p>
+
+<ul>
+    <li>Microsoft.AspNetCore.Identity.EntityFrameworkCore</li>
+    <li>Microsoft.EntityFrameworkCore.Design</li>
+    <li>Microsoft.EntityFrameworkCore.Tools</li>
+    <li>Microsoft.EntityFrameworkCore.SqlServer</li>
+</ul>
+
+<h2>En Temel Identity Sınıfları</h2>
+
+<p>Asp.Net Core Identity kütüphanesinde en temek aktörler IdentityUser ve IdentityRole sınıflarıdır. Bu sınıflar hali hazırda Identity kütüpnesinin içinde bulunup birçok propery içermektedir.</p>
+<p>IdentityUser ve IdentityRole sınıflarına istediğimiz propery'leri eklemek için bu sınıfları miras alan AppUser ve AppRole sınıfları oluşturulur</p>
+
+<ul>
+    <li>public class AppUser : IdentityUser {}</li>
+    <li>public class AppRole : IdentityRole {}</li>
+</ul>
+
+<p>Identity kütüphanesi ile oluşturulmuş bir veritabanı tasarlamak için bir Context sınıfı oluşturulmalıdır. Oluşturulan Context sınıfı EntityFrameworkCore ile gelen DbContext sınıfını miras almak yerine IdentityDbContext sınıfını miras almalıdır.</p>
+
+<ul>
+    <li>public class AppDbContext : IdentityDbContext<AppUser> {} </li>
+</ul>
+
+<p>Projede Identity'i kullanabilmek için Program.cs dosyasına bir servis olarak eklenmelidir.</p>
+
+<ul>
+    <li>services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();</li>
+</ul>
+
+<p>Bu yapıda ilgili migrate işlemlerini yaptıktan sonra Identity tabanlı ve ilgili default tablolarıyla beraber bir veritabanının kurulduğunu görüyoruz.</p>
+
+<ul>
+    <li>AspNetRoleClaims</li>
+    <li>AspNetRoles</li>
+    <li>AspNetUserClaims</li>
+    <li>AspNetUserLogins</li>
+    <li>AspNetUserRoles</li>
+    <li>AspNetUsers</li>
+    <li>AspNetUserTokens</li>
+</ul>
