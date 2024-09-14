@@ -81,11 +81,11 @@
 
 <h3>AspNetRoles</h3>
 
-<p>Uygulamada kullanıcılara özgü tanımlanan rolleri tutan tablodur. Tabloyu incelersek rollerin adını tutacak olan <span style="color: red;">Name</span> kolonu ve bu değerleri indexleyip big data durumlarında performans kazandıracak indexlenmiş <span style="color: red;">NormalizedName</span> kolonu mevcuttur. Ayrıca veri tutarlılığı içinde <span style="color: red;">ConcurrencyStamp</span> kolunu mevcuttur.</p>
+<p>Uygulamada kullanıcılara özgü tanımlanan rolleri tutan tablodur. Tabloyu incelersek rollerin adını tutacak olan <b>Name</b> kolonu ve bu değerleri indexleyip big data durumlarında performans kazandıracak indexlenmiş <b>NormalizedName</b> kolonu mevcuttur. Ayrıca veri tutarlılığı içinde <b>ConcurrencyStamp</b> kolunu mevcuttur.</p>
 
 <h3>AspNetUserRoles</h3>
 
-<p>Uygulamada hangi kullanıcı hangi rol yetkilerine sahip ilişkilendiren Cross Table(Ara Tablo) görevi gören bir tablodur. Composite primary key olarak ayarlanan <span style="color: red;">UserId</span> ve <span style="color: red;">RoleId</span> kolonları üzerinden bu ilişki sağlanmaktadır.</p>
+<p>Uygulamada hangi kullanıcı hangi rol yetkilerine sahip ilişkilendiren Cross Table(Ara Tablo) görevi gören bir tablodur. Composite primary key olarak ayarlanan <b>UserId</b> ve <b>RoleId</b> kolonları üzerinden bu ilişki sağlanmaktadır.</p>
 
 <h3>AspNetUserClaims</h3>
 
