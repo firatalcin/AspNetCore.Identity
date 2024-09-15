@@ -35,23 +35,21 @@
 <p>Asp.Net Core Identity kütüphanesinde en temel aktörler IdentityUser ve IdentityRole sınıflarıdır. Bu sınıflar hali hazırda Identity kütüpnesinin içinde bulunup birçok propery içermektedir.</p>
 <p>IdentityUser ve IdentityRole sınıflarına istediğimiz propery'leri eklemek için bu sınıfları miras alan AppUser ve AppRole sınıfları oluşturulur</p>
 
-<ul>
-    <li>public class AppUser : IdentityUser {}</li>
-    <li>public class AppRole : IdentityRole {}</li>
-</ul>
+```csharp
+public class AppUser : IdentityUser {}
+public class AppRole : IdentityRole {}
+```
 
 <p>Identity kütüphanesi ile oluşturulmuş bir veritabanı tasarlamak için bir Context sınıfı oluşturulmalıdır. Oluşturulan Context sınıfı EntityFrameworkCore ile gelen DbContext sınıfını miras almak yerine IdentityDbContext sınıfını miras almalıdır.</p>
 
-<ul>
-    <li>public class AppDbContext : IdentityDbContext<AppUser> {} </li>
-</ul>
-
+```csharp  
+public class AppDbContext : IdentityDbContext<AppUser> {} 
+```
 <p>Projede Identity'i kullanabilmek için Program.cs dosyasına bir servis olarak eklenmelidir.</p>
 
-<ul>
-    <li>services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();</li>
-</ul>
-
+```csharp  
+services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+```
 <p>Bu yapıda ilgili migrate işlemlerini yaptıktan sonra Identity tabanlı ve ilgili default tablolarıyla beraber bir veritabanının kurulduğunu görüyoruz.</p>
 
 <ul>
@@ -102,3 +100,4 @@
 <h3>AspNetUserTokens</h3>
 
 <p>Token bazlı doğrulamalarda üretilen token değeri bu tabloda tutulur.</p>
+
