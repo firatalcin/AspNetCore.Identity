@@ -21,7 +21,7 @@
 
 <h2>Asp.Net Core Identity - Identity Altyapısı Kurulumu</h2>
 
-<p>Identity'i kütüphanesini bir projede kullanabilmek için öncelikle ilgili Nuget'leri(Package) indirmemiz gerekmektedir.</p>
+<p>Identity kütüphanesini bir projede kullanabilmek için öncelikle ilgili Nuget'leri(Package) indirmemiz gerekmektedir.</p>
 
 <ul>
     <li>Microsoft.AspNetCore.Identity.EntityFrameworkCore</li>
@@ -32,7 +32,7 @@
 
 <h2>En Temel Identity Sınıfları</h2>
 
-<p>Asp.Net Core Identity kütüphanesinde en temek aktörler IdentityUser ve IdentityRole sınıflarıdır. Bu sınıflar hali hazırda Identity kütüpnesinin içinde bulunup birçok propery içermektedir.</p>
+<p>Asp.Net Core Identity kütüphanesinde en temel aktörler IdentityUser ve IdentityRole sınıflarıdır. Bu sınıflar hali hazırda Identity kütüpnesinin içinde bulunup birçok propery içermektedir.</p>
 <p>IdentityUser ve IdentityRole sınıflarına istediğimiz propery'leri eklemek için bu sınıfları miras alan AppUser ve AppRole sınıfları oluşturulur</p>
 
 <ul>
