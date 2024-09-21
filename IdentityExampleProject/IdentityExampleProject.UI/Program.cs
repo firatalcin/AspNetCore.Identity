@@ -27,8 +27,12 @@ namespace IdentityExampleProject.UI
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireLowercase = false;
                 opt.Password.RequireDigit = false;
+
+                opt.User.RequireUniqueEmail = true;
+                opt.User.AllowedUserNameCharacters = "abcçdefghiıjklmnoöpqrsştuüvwxyzABCÇDEFGHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789 -._@+";
             })
                 .AddPasswordValidator<CustomPasswordValidation>()
+                .AddUserValidator<CustomUserValidation>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
             var app = builder.Build();
