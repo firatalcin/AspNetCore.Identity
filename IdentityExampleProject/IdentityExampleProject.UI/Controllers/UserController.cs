@@ -42,6 +42,13 @@ namespace IdentityExampleProject.UI.Controllers
                 {
                     return RedirectToAction("Index", "User");   
                 }
+                else
+                {
+                    result.Errors.ToList().ForEach(error =>
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    });
+                }
             }
             return View();
         }

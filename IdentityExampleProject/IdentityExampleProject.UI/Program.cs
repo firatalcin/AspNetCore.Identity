@@ -1,3 +1,4 @@
+using IdentityExampleProject.UI.CustomValidations;
 using IdentityExampleProject.UI.Models.Authentication;
 using IdentityExampleProject.UI.Models.Context;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,16 @@ namespace IdentityExampleProject.UI
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("mssql"));
             });
 
-            builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddIdentity<AppUser, AppRole>(opt =>
+            {
+                opt.Password.RequiredLength = 5;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireDigit = false;
+            })
+                .AddPasswordValidator<CustomPasswordValidation>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
             var app = builder.Build();
 

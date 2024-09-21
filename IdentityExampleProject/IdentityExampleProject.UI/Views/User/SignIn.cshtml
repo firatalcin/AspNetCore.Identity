@@ -10,31 +10,25 @@
 <hr />
 
 <form asp-action="SignIn">
-    <table>
-        <tr>
-            <td colspan="3"><div asp-validation-summary="ModelOnly"></div></td>
-        </tr>
-        <tr>
-            <td><label asp-for="UserName"></label></td>
-            <td><input asp-for=UserName/></td>
-            <td><span asp-validation-for="UserName"></span></td>
-        </tr>
 
-        <tr>
-            <td><label asp-for="Email"></label></td>
-            <td><input asp-for=Email /></td>
-            <td><span asp-validation-for="Email"></span></td>
-        </tr>
-
-        <tr>
-            <td><label asp-for="Sifre"></label></td>
-            <td><input asp-for=Sifre /></td>
-            <td><span asp-validation-for="Sifre"></span></td>
-        </tr>
-
-        <tr>
-            <td colspan="3"><input type="submit" value="Üye Ol"/></td>
-        </tr>
-    </table>
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="UserName" class="form-label"></label>
+        <input asp-for=UserName  class="form-control"/>
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div>
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for=Email class="form-control" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Sifre" class="form-label"></label>
+        <input asp-for=Sifre class="form-control" />
+        <span asp-validation-for="Sifre"></span>
+    </div>
+    <div>
+        <input type="submit" value="Üye Ol" />
+    </div>   
 </form>
 
