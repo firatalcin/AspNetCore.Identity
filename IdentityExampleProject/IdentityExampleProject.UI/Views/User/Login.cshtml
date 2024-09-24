@@ -1,0 +1,34 @@
+﻿@using IdentityExampleProject.UI.ViewModels
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h4>Giriş Yap</h4>
+<hr />
+<form asp-action="Login">
+    <table>
+        <tr>
+            <td colspan="3"><div asp-validation-summary="All" class="text-danger"></div></td>
+        </tr>
+        <tr>
+            <td><label asp-for="Email"></label></td>
+            <td><input asp-for="Email" /></td>
+            <td><span asp-validation-for="Email" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="Password"></label></td>
+            <td><input asp-for="Password" /></td>
+            <td><span asp-validation-for="Password" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="Persistent"></label></td>
+            <td><input asp-for="Persistent" /></td>
+            <td><span asp-validation-for="Persistent" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td colspan="3"><input type="submit" value="Giriş Yap" /></td>
+        </tr>
+    </table>
+</form>
+

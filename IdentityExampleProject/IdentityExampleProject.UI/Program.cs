@@ -36,6 +36,22 @@ namespace IdentityExampleProject.UI
                 .AddErrorDescriber<CustomIdentityErrorDescriber>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
+            builder.Services.ConfigureApplicationCookie(opt =>
+            {
+                opt.LoginPath = new PathString("/User/Login");
+                opt.Cookie = new CookieBuilder
+                {
+                    Name = "AspNetCoreIdentityExampleCookie",
+                    HttpOnly = false,
+                    MaxAge = TimeSpan.FromMinutes(2),
+                    SameSite = SameSiteMode.Lax,
+                    SecurePolicy = CookieSecurePolicy.Always,
+                };
+
+                opt.SlidingExpiration = true;
+                opt.Cookie.MaxAge = TimeSpan.FromMinutes(2);
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

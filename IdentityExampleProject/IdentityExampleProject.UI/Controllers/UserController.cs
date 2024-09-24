@@ -1,5 +1,6 @@
 ﻿using IdentityExampleProject.UI.Models.Authentication;
 using IdentityExampleProject.UI.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,12 +9,15 @@ namespace IdentityExampleProject.UI.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public UserController(UserManager<AppUser> userManager)
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
@@ -40,7 +44,7 @@ namespace IdentityExampleProject.UI.Controllers
                 IdentityResult result = await _userManager.CreateAsync(appUser, model.Sifre);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "User");   
+                    return RedirectToAction("Index", "User");
                 }
                 else
                 {
@@ -51,6 +55,42 @@ namespace IdentityExampleProject.UI.Controllers
                 }
             }
             return View();
+        }
+
+        public IActionResult Login(string returnUrl)
+        {
+            TempData["returnUrl"] = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    await _signInManager.SignOutAsync();
+                    Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, model.Persistent, model.Lock);
+                    if (result.Succeeded)
+                    {
+                        return Redirect(TempData["returnUrl"].ToString());
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("NotUser", "Böyle bir kullanıcı bulunmamaktadır.");
+                        ModelState.AddModelError("NotUser2", "E-posta veya şifre yanlış.");
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index");
         }
     }
 }
