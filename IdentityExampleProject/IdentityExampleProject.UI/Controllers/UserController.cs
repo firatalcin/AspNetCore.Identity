@@ -75,10 +75,30 @@ namespace IdentityExampleProject.UI.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, model.Password, model.Persistent, model.Lock);
                     if (result.Succeeded)
                     {
+                        await _userManager.ResetAccessFailedCountAsync(user);
+
+                        if (string.IsNullOrEmpty(TempData["returnUrl"] != null ? TempData["returnUrl"].ToString() : ""))
+                            return RedirectToAction("Index");
                         return Redirect(TempData["returnUrl"].ToString());
                     }
                     else
                     {
+                        await _userManager.AccessFailedAsync(user);
+
+                        int failCount = await _userManager.GetAccessFailedCountAsync(user);
+                        if(failCount == 3)
+                        {
+                            await _userManager.SetLockoutEndDateAsync(user, new DateTimeOffset(DateTime.Now.AddMinutes(1)));
+                            ModelState.AddModelError("Locked", "Art arda 3 başarısız giriş denemesi yaptığınızdan dolayı hesabınız 1 dk kitlenmiştir.");
+                        }
+                        else
+                        {
+                            if (result.IsLockedOut)
+                                ModelState.AddModelError("Locked", "Art arda 3 başarısız giriş denemesi yaptığınızdan dolayı hesabınız 1 dk kilitlenmiştir.");
+                            else
+                                ModelState.AddModelError("NotUser2", "E-posta veya şifre yanlış.");
+                        }
+
                         ModelState.AddModelError("NotUser", "Böyle bir kullanıcı bulunmamaktadır.");
                         ModelState.AddModelError("NotUser2", "E-posta veya şifre yanlış.");
                     }
