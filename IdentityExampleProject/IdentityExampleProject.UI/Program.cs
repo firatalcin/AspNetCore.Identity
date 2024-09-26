@@ -34,7 +34,8 @@ namespace IdentityExampleProject.UI
                 .AddPasswordValidator<CustomPasswordValidation>()
                 .AddUserValidator<CustomUserValidation>()
                 .AddErrorDescriber<CustomIdentityErrorDescriber>()
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.ConfigureApplicationCookie(opt =>
             {

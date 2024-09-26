@@ -3,6 +3,9 @@ using IdentityExampleProject.UI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mail;
+using System.Web;
 
 namespace IdentityExampleProject.UI.Controllers
 {
@@ -112,5 +115,65 @@ namespace IdentityExampleProject.UI.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index");
         }
+
+        public IActionResult PasswordReset()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PasswordReset(ResetPasswordViewModel model)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                MailMessage mail = new MailMessage();
+                mail.IsBodyHtml = true;
+                mail.To.Add(user.Email);
+                mail.From = new MailAddress("******@gmail.com", "Şifre Güncelleme", System.Text.Encoding.UTF8);
+                mail.Subject = "Şifre Güncelleme Talebi";
+                mail.Body = $"<a target=\"_blank\" href=\"https://localhost:5001{Url.Action("UpdatePassword", "User", new { userId = user.Id, token = HttpUtility.UrlEncode(resetToken) })}\">Yeni şifre talebi için tıklayınız</a>";
+
+                SmtpClient smtpClient = new SmtpClient();
+                smtpClient.Credentials = new NetworkCredential("*****@gmail.com", "******");
+                smtpClient.Port = 587;
+                smtpClient.Host = "smtp.gmail.com";
+                smtpClient.EnableSsl = true;
+                smtpClient.Send(mail);
+
+                ViewBag.State = true;
+            }
+            else
+            {
+                ViewBag.State = false;
+            }
+
+            return View();
+        }
+
+        [HttpGet("[action]/{userId}/{token}")]
+        public IActionResult UpdatePassword(string userId, string token)
+        {
+            return View();
+        }
+
+        [HttpPost("[action]/{userId}/{token}")]
+        public async Task<IActionResult> UpdatePassword(UpdatePasswordViewModel model, string userId, string token)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userId);
+            IdentityResult result = await _userManager.ResetPasswordAsync(user, HttpUtility.UrlDecode(token), model.Password);
+            if (result.Succeeded)
+            {
+                ViewBag.State = true;
+                await _userManager.UpdateSecurityStampAsync(user);
+            }
+            else
+                ViewBag.State = false;
+            return View();
+        }
+
     }
 }
