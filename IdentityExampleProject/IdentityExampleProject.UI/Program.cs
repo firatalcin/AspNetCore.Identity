@@ -40,6 +40,7 @@ namespace IdentityExampleProject.UI
             builder.Services.ConfigureApplicationCookie(opt =>
             {
                 opt.LoginPath = new PathString("/User/Login");
+                opt.LogoutPath = new PathString("/User/Logout");
                 opt.Cookie = new CookieBuilder
                 {
                     Name = "AspNetCoreIdentityExampleCookie",
