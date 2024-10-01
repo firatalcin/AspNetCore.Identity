@@ -1,6 +1,8 @@
 using IdentityExampleProject.UI.CustomValidations;
+using IdentityExampleProject.UI.Features;
 using IdentityExampleProject.UI.Models.Authentication;
 using IdentityExampleProject.UI.Models.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,6 +56,12 @@ namespace IdentityExampleProject.UI
                 opt.Cookie.MaxAge = TimeSpan.FromMinutes(2);
                 opt.AccessDeniedPath = new PathString("/authority/page");
             });
+
+            builder.Services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("TimeControl", policy => policy.Requirements.Add(new TimeRequirement()));
+            });
+            builder.Services.AddSingleton<IAuthorizationHandler, TimeHandler>();
 
             var app = builder.Build();
 

@@ -1,4 +1,5 @@
 using IdentityExampleProject.UI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -27,6 +28,17 @@ namespace IdentityExampleProject.UI.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [Authorize]
+        public IActionResult Page1()
+        {
+            return View();
+        }
+        [Authorize(Policy = "TimeControl")]
+        public IActionResult Page2()
+        {
+            return View();
         }
     }
 }
