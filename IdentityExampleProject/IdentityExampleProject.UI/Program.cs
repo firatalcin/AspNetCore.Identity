@@ -52,6 +52,7 @@ namespace IdentityExampleProject.UI
 
                 opt.SlidingExpiration = true;
                 opt.Cookie.MaxAge = TimeSpan.FromMinutes(2);
+                opt.AccessDeniedPath = new PathString("/authority/page");
             });
 
             var app = builder.Build();
