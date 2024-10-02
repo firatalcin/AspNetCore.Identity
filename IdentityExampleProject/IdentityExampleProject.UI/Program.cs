@@ -2,6 +2,7 @@ using IdentityExampleProject.UI.CustomValidations;
 using IdentityExampleProject.UI.Features;
 using IdentityExampleProject.UI.Models.Authentication;
 using IdentityExampleProject.UI.Models.Context;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -62,8 +63,19 @@ namespace IdentityExampleProject.UI
                 opt.AddPolicy("TimeControl", policy => policy.Requirements.Add(new TimeRequirement()));
             });
             builder.Services.AddSingleton<IAuthorizationHandler, TimeHandler>();
+            builder.Services.AddScoped<IClaimsTransformation, UserClaimProvider>();
 
-            var app = builder.Build();
+            builder.Services.AddScoped<IClaimsTransformation, UserClaimProvider>();
+            builder.Services.AddAuthorization(x => x.AddPolicy("UserClaimNamePolicy", policy => policy.RequireClaim("username", "gncy")));
+            builder.Services.AddAuthorization(x => x.AddPolicy("UserClaimPositionPolicy", policy => policy.RequireClaim("pozisyon", "admin")));
+        .
+        .
+        .
+    }
+    }
+
+
+    var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
